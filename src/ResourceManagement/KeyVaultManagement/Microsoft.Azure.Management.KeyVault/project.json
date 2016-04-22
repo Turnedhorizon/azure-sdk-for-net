@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0-*",
+  "description": "Provides resource group and resource management capabilities for Microsoft Azure.",
+  "authors": [ "Microsoft" ],
+  "tags": [ "Microsoft Azure key vault management", "Key Vault", "REST HTTP client", "azureofficial", "windowsazureofficial" ],
+  "projectUrl": "https://github.com/Azure/azure-sdk-for-net",
+  "licenseUrl": "https://raw.githubusercontent.com/Microsoft/dotnet/master/LICENSE",
+
+  "compilationOptions": {
+    "delaySign": true,
+    "keyFile": "../../../../tools/MSSharedLibKey.snk"
+  },
+
+  "dependencies": {
+    "Microsoft.Rest.ClientRuntime.Azure": "[3.2.0,4.0)"
+  },
+
+  "frameworks": {
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Collections": { "type": "build" },
+        "System.Linq.Expressions": { "type": "build" },
+        "System.Runtime": { "type": "build" },
+        "System.Runtime.Serialization": "",
+        "System.Threading.Tasks": { "type": "build" }
+      }
+    },
+    "dnxcore50": {
+      "dependencies": {
+        "System.Diagnostics.Tools": "4.0.1-beta-23516",
+        "System.Net.Http": "4.0.1-beta-23516",
+        "System.Runtime.Serialization.Primitives": "4.1.0-beta-23516",
+        "System.Threading.Tasks": "4.0.11-beta-23516",
+        "System.Xml.ReaderWriter": "4.0.11-beta-23516"
+      }
+    }
+  }
+}
