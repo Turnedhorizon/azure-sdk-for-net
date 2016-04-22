@@ -245,9 +245,15 @@ namespace Microsoft.Azure.Management.Network
             /// <param name='circuitName'>
             /// The name of the circuit.
             /// </param>
-            public static IPage<ExpressRouteCircuitArpTable> ListArpTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName)
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsArpTableListResult ListArpTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
             {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListArpTableAsync(resourceGroupName, circuitName), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -264,12 +270,74 @@ namespace Microsoft.Azure.Management.Network
             /// <param name='circuitName'>
             /// The name of the circuit.
             /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IPage<ExpressRouteCircuitArpTable>> ListArpTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ExpressRouteCircuitsArpTableListResult> ListArpTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ListArpTableWithHttpMessagesAsync(resourceGroupName, circuitName, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.ListArpTableWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// The ListArpTable from ExpressRouteCircuit opertion retrieves the currently
+            /// advertised arp table associated with the ExpressRouteCircuits in a
+            /// resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsArpTableListResult BeginListArpTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
+            {
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).BeginListArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// The ListArpTable from ExpressRouteCircuit opertion retrieves the currently
+            /// advertised arp table associated with the ExpressRouteCircuits in a
+            /// resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ExpressRouteCircuitsArpTableListResult> BeginListArpTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.BeginListArpTableWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -289,9 +357,15 @@ namespace Microsoft.Azure.Management.Network
             /// <param name='circuitName'>
             /// The name of the circuit.
             /// </param>
-            public static IPage<ExpressRouteCircuitRoutesTable> ListRoutesTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName)
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsRoutesTableListResult ListRoutesTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
             {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListRoutesTableAsync(resourceGroupName, circuitName), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -308,12 +382,186 @@ namespace Microsoft.Azure.Management.Network
             /// <param name='circuitName'>
             /// The name of the circuit.
             /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IPage<ExpressRouteCircuitRoutesTable>> ListRoutesTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ExpressRouteCircuitsRoutesTableListResult> ListRoutesTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ListRoutesTableWithHttpMessagesAsync(resourceGroupName, circuitName, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.ListRoutesTableWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsRoutesTableListResult BeginListRoutesTable(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
+            {
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).BeginListRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ExpressRouteCircuitsRoutesTableListResult> BeginListRoutesTableAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.BeginListRoutesTableWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsRoutesTableSummaryListResult ListRoutesTableSummary(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
+            {
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ExpressRouteCircuitsRoutesTableSummaryListResult> ListRoutesTableSummaryAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ListRoutesTableSummaryWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            public static ExpressRouteCircuitsRoutesTableSummaryListResult BeginListRoutesTableSummary(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath)
+            {
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).BeginListRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
+            /// currently advertised routes table associated with the
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='devicePath'>
+            /// The path of the device.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ExpressRouteCircuitsRoutesTableSummaryListResult> BeginListRoutesTableSummaryAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, string devicePath, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.BeginListRoutesTableSummaryWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, devicePath, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -330,11 +578,11 @@ namespace Microsoft.Azure.Management.Network
             /// The name of the resource group.
             /// </param>
             /// <param name='circuitName'>
-            /// The name of the loadBalancer.
+            /// The name of the circuit.
             /// </param>
-            public static IPage<ExpressRouteCircuitStats> ListStats(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName)
+            public static ExpressRouteCircuitStats GetStats(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName)
             {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListStatsAsync(resourceGroupName, circuitName), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).GetStatsAsync(resourceGroupName, circuitName), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -348,14 +596,62 @@ namespace Microsoft.Azure.Management.Network
             /// The name of the resource group.
             /// </param>
             /// <param name='circuitName'>
-            /// The name of the loadBalancer.
+            /// The name of the circuit.
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IPage<ExpressRouteCircuitStats>> ListStatsAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ExpressRouteCircuitStats> GetStatsAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ListStatsWithHttpMessagesAsync(resourceGroupName, circuitName, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetStatsWithHttpMessagesAsync(resourceGroupName, circuitName, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// The Liststats ExpressRouteCircuit opertion retrieves all the stats from a
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            public static ExpressRouteCircuitStats GetPeeringStats(this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName)
+            {
+                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).GetPeeringStatsAsync(resourceGroupName, circuitName, peeringName), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// The Liststats ExpressRouteCircuit opertion retrieves all the stats from a
+            /// ExpressRouteCircuits in a resource group.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='resourceGroupName'>
+            /// The name of the resource group.
+            /// </param>
+            /// <param name='circuitName'>
+            /// The name of the circuit.
+            /// </param>
+            /// <param name='peeringName'>
+            /// The name of the peering.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ExpressRouteCircuitStats> GetPeeringStatsAsync( this IExpressRouteCircuitsOperations operations, string resourceGroupName, string circuitName, string peeringName, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetPeeringStatsWithHttpMessagesAsync(resourceGroupName, circuitName, peeringName, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -422,118 +718,6 @@ namespace Microsoft.Azure.Management.Network
             public static async Task<IPage<ExpressRouteCircuit>> ListAllAsync( this IExpressRouteCircuitsOperations operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.ListAllWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// The ListArpTable from ExpressRouteCircuit opertion retrieves the currently
-            /// advertised arp table associated with the ExpressRouteCircuits in a
-            /// resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            public static IPage<ExpressRouteCircuitArpTable> ListArpTableNext(this IExpressRouteCircuitsOperations operations, string nextPageLink)
-            {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListArpTableNextAsync(nextPageLink), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// The ListArpTable from ExpressRouteCircuit opertion retrieves the currently
-            /// advertised arp table associated with the ExpressRouteCircuits in a
-            /// resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IPage<ExpressRouteCircuitArpTable>> ListArpTableNextAsync( this IExpressRouteCircuitsOperations operations, string nextPageLink, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.ListArpTableNextWithHttpMessagesAsync(nextPageLink, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
-            /// currently advertised routes table associated with the
-            /// ExpressRouteCircuits in a resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            public static IPage<ExpressRouteCircuitRoutesTable> ListRoutesTableNext(this IExpressRouteCircuitsOperations operations, string nextPageLink)
-            {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListRoutesTableNextAsync(nextPageLink), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// The ListRoutesTable from ExpressRouteCircuit opertion retrieves the
-            /// currently advertised routes table associated with the
-            /// ExpressRouteCircuits in a resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IPage<ExpressRouteCircuitRoutesTable>> ListRoutesTableNextAsync( this IExpressRouteCircuitsOperations operations, string nextPageLink, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.ListRoutesTableNextWithHttpMessagesAsync(nextPageLink, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// The Liststats ExpressRouteCircuit opertion retrieves all the stats from a
-            /// ExpressRouteCircuits in a resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            public static IPage<ExpressRouteCircuitStats> ListStatsNext(this IExpressRouteCircuitsOperations operations, string nextPageLink)
-            {
-                return Task.Factory.StartNew(s => ((IExpressRouteCircuitsOperations)s).ListStatsNextAsync(nextPageLink), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// The Liststats ExpressRouteCircuit opertion retrieves all the stats from a
-            /// ExpressRouteCircuits in a resource group.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='nextPageLink'>
-            /// The NextLink from the previous successful call to List operation.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IPage<ExpressRouteCircuitStats>> ListStatsNextAsync( this IExpressRouteCircuitsOperations operations, string nextPageLink, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.ListStatsNextWithHttpMessagesAsync(nextPageLink, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

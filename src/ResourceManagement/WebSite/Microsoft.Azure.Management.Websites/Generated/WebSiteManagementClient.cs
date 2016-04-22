@@ -102,6 +102,8 @@ namespace Microsoft.Azure.Management.WebSites
 
         public virtual IProviderOperations Provider { get; private set; }
 
+        public virtual IRecommendationsOperations Recommendations { get; private set; }
+
         public virtual IServerFarmsOperations ServerFarms { get; private set; }
 
         public virtual ISitesOperations Sites { get; private set; }
@@ -289,7 +291,7 @@ namespace Microsoft.Azure.Management.WebSites
         /// </summary>
         private void Initialize()
         {
-            this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             this.Certificates = new CertificatesOperations(this);
             this.ClassicMobileServices = new ClassicMobileServicesOperations(this);
             this.Domains = new DomainsOperations(this);
@@ -299,6 +301,7 @@ namespace Microsoft.Azure.Management.WebSites
             this.HostingEnvironments = new HostingEnvironmentsOperations(this);
             this.ManagedHostingEnvironments = new ManagedHostingEnvironmentsOperations(this);
             this.Provider = new ProviderOperations(this);
+            this.Recommendations = new RecommendationsOperations(this);
             this.ServerFarms = new ServerFarmsOperations(this);
             this.Sites = new SitesOperations(this);
             this.TopLevelDomains = new TopLevelDomainsOperations(this);

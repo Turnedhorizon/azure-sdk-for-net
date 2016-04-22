@@ -12,6 +12,7 @@ namespace Microsoft.Azure.Search.Tests
     using Microsoft.Rest.Azure;
     using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
     using Microsoft.Spatial;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Rest.Serialization;
     using Xunit;
@@ -550,6 +551,86 @@ namespace Microsoft.Azure.Search.Tests
         }
 
         [Fact]
+        public void CanSetExplicitNullsInStaticallyTypedDocuments()
+        {
+            Run(() =>
+            {
+                SearchIndexClient client = Data.GetSearchIndexClient();
+
+                // This is just so we can use the LoudHotel class instead of Hotel since it has per-property
+                // NullValueHandling set.
+                var resolver = new MyCustomContractResolver();
+                client.SerializationSettings.ContractResolver = resolver;
+                client.DeserializationSettings.ContractResolver = resolver;
+
+                var originalDoc =
+                    new LoudHotel()
+                    {
+                        HOTELID = "1",
+                        BASERATE = 199.0,
+                        DESCRIPTION = "Best hotel in town",
+                        DESCRIPTIONFRENCH = "Meilleur hôtel en ville",
+                        HOTELNAME = "Fancy Stay",
+                        CATEGORY = "Luxury",
+                        TAGS = new[] { "pool", "view", "wifi", "concierge" },
+                        PARKINGINCLUDED = false,
+                        SMOKINGALLOWED = false,
+                        LASTRENOVATIONDATE = new DateTimeOffset(2010, 6, 27, 0, 0, 0, TimeSpan.FromHours(-8)),
+                        RATING = 5,
+                        LOCATION = GeographyPoint.Create(47.678581, -122.131577)
+                    };
+
+                var updatedDoc =
+                    new LoudHotel()
+                    {
+                        HOTELID = "1",
+                        BASERATE = 99.0,
+                        DESCRIPTION = null,
+                        CATEGORY = null,    // This property doesn't have NullValueHandling.Include, so this should have no effect.
+                        TAGS = new[] { "pool", "view", "wifi" },
+                        PARKINGINCLUDED = true,
+                        LASTRENOVATIONDATE = new DateTimeOffset(2010, 6, 27, 0, 0, 0, TimeSpan.FromHours(-8)),
+                        RATING = 4,
+                        LOCATION = null
+                    };
+
+                var expectedDoc =
+                    new LoudHotel()
+                    {
+                        HOTELID = "1",
+                        BASERATE = 99.0,
+                        DESCRIPTION = null,
+                        DESCRIPTIONFRENCH = "Meilleur hôtel en ville",
+                        HOTELNAME = "Fancy Stay",
+                        CATEGORY = "Luxury",
+                        TAGS = new[] { "pool", "view", "wifi" },
+                        PARKINGINCLUDED = true,
+                        SMOKINGALLOWED = false,
+                        LASTRENOVATIONDATE = new DateTimeOffset(2010, 6, 27, 0, 0, 0, TimeSpan.FromHours(-8)),
+                        RATING = 4,
+                        LOCATION = null
+                    };
+
+                client.Documents.Index(IndexBatch.Upload(new[] { originalDoc }));
+                SearchTestUtilities.WaitForIndexing();
+
+                client.Documents.Index(IndexBatch.Merge(new[] { updatedDoc }));
+                SearchTestUtilities.WaitForIndexing();
+
+                LoudHotel actualDoc = client.Documents.Get<LoudHotel>("1");
+
+                Assert.Equal(expectedDoc, actualDoc);
+
+                client.Documents.Index(IndexBatch.Upload(new[] { originalDoc }));
+                SearchTestUtilities.WaitForIndexing();
+
+                actualDoc = client.Documents.Get<LoudHotel>("1");
+
+                Assert.Equal(originalDoc, actualDoc);
+            });
+        }
+
+        [Fact]
         public void CanIndexAndRetrieveModelWithExtraProperties()
         {
             Run(() =>
@@ -675,6 +756,34 @@ namespace Microsoft.Azure.Search.Tests
                 };
 
             Run(() => TestCanIndexAndRetrieveWithCustomConverter<CustomBook>(customizeSettings));
+        }
+
+        [Fact]
+        public void CanUseIndexWithReservedName()
+        {
+            Run(() =>
+            {
+                SearchServiceClient serviceClient = Data.GetSearchServiceClient();
+
+                var indexWithReservedName =
+                    new Index()
+                    {
+                        Name = "prototype",
+                        Fields = new[] { new Field("ID", DataType.String) { IsKey = true } }
+                    };
+
+                serviceClient.Indexes.Create(indexWithReservedName);
+
+                SearchIndexClient indexClient = Data.GetSearchIndexClient(indexWithReservedName.Name);
+
+                var batch = IndexBatch.Upload(new[] { new Document() { { "ID", "1" } } });
+                indexClient.Documents.Index(batch);
+
+                SearchTestUtilities.WaitForIndexing();
+
+                Document doc = indexClient.Documents.Get("1");
+                Assert.NotNull(doc);
+            });
         }
 
         private void TestCanIndexAndRetrieveWithCustomConverter<T>(Action<SearchIndexClient> customizeSettings = null) 

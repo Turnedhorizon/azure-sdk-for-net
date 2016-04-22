@@ -28,9 +28,9 @@ namespace DataLakeAnalytics.Tests
         /// </summary>
         /// <param name="testBase">the test class</param>
         /// <returns>A bigAnalytics management client, created from the current context (environment variables)</returns>
-        public static DataLakeAnalyticsManagementClient GetDataLakeAnalyticsManagementClient(this TestBase testBase, MockContext context)
+        public static DataLakeAnalyticsAccountManagementClient GetDataLakeAnalyticsAccountManagementClient(this TestBase testBase, MockContext context)
         {
-            return context.GetServiceClient<DataLakeAnalyticsManagementClient>();
+            return context.GetServiceClient<DataLakeAnalyticsAccountManagementClient>();
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace DataLakeAnalytics.Tests
         /// </summary>
         /// <param name="testBase">the test class</param>
         /// <returns>A dataLake management client, created from the current context (environment variables)</returns>
-        public static DataLakeStoreManagementClient GetDataLakeStoreManagementClient(this TestBase testBase, MockContext context)
+        public static DataLakeStoreAccountManagementClient GetDataLakeStoreAccountManagementClient(this TestBase testBase, MockContext context)
         {
-            return context.GetServiceClient<DataLakeStoreManagementClient>();
+            return context.GetServiceClient<DataLakeStoreAccountManagementClient>();
         }
 
         /// <summary>
@@ -70,11 +70,10 @@ namespace DataLakeAnalytics.Tests
         /// <returns>A Data Lake analytics catalog management client, created from the current context (environment variables)</returns>
         public static DataLakeAnalyticsCatalogManagementClient GetDataLakeAnalyticsCatalogManagementClient(this TestBase testBase, MockContext context)
         {
-            var client = context.GetServiceClient<DataLakeAnalyticsCatalogManagementClient>();
+            var client = context.GetServiceClient<DataLakeAnalyticsCatalogManagementClient>(true);
             
             // reset back to the default to ensure the logic works as expected.
-            client.BaseUri = new System.Uri("https://accountname.catalogserviceuri");
-            client.Catalogserviceuri = TestEnvironmentFactory.GetTestEnvironment().Endpoints.DataLakeAnalyticsJobAndCatalogServiceUri.OriginalString.Replace("https://", "");
+            client.AdlaCatalogDnsSuffix = TestEnvironmentFactory.GetTestEnvironment().Endpoints.DataLakeAnalyticsJobAndCatalogServiceUri.OriginalString.Replace("https://", "");
             return client;
         }
 
@@ -85,11 +84,10 @@ namespace DataLakeAnalytics.Tests
         /// <returns>A bigAnalytics management client, created from the current context (environment variables)</returns>
         public static DataLakeAnalyticsJobManagementClient GetDataLakeAnalyticsJobManagementClient(this TestBase testBase, MockContext context)
         {
-            var client = context.GetServiceClient<DataLakeAnalyticsJobManagementClient>();
+            var client = context.GetServiceClient<DataLakeAnalyticsJobManagementClient>(true);
 
             // reset back to the default to ensure the logic works as expected.
-            client.BaseUri = new System.Uri("https://accountname.jobserviceuri");
-            client.Jobserviceuri = TestEnvironmentFactory.GetTestEnvironment().Endpoints.DataLakeAnalyticsJobAndCatalogServiceUri.OriginalString.Replace("https://", "");
+            client.AdlaJobDnsSuffix = TestEnvironmentFactory.GetTestEnvironment().Endpoints.DataLakeAnalyticsJobAndCatalogServiceUri.OriginalString.Replace("https://", "");
             return client;
         }
     }
