@@ -26,10 +26,13 @@ using Microsoft.Azure.Management.MachineLearning.WebServices.Models;
 using Microsoft.Azure.Management.MachineLearning.WebServices.Util;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.Azure.Management.Storage;
+using Microsoft.Azure.Management.Storage.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using StorageAccount = Microsoft.Azure.Management.MachineLearning.WebServices.Models.StorageAccount;
 
 namespace MachineLearning.Tests.ScenarioTests
 {
@@ -39,28 +42,38 @@ namespace MachineLearning.Tests.ScenarioTests
         private const string TestServiceNamePrefix = "amlws";
         private const string TestCommitmentPlanNamePrefix = "amlcp";
         private const string TestResourceGroupNamePrefix = "amlrg";
+        private const string TestStorageAccountPrefix = "amlstor";
         private const string MLResourceProviderNamespace = "Microsoft.MachineLearning";
         private const string CPResourceType = "commitmentPlans";
 
         private const string ResourceIdFormat = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.MachineLearning/webServices/{2}";
-        private const string ServiceDefinitionJsonFileDogfood = @".\TestData\GraphWebServiceDefinition_Dogfood.json";
-        private const string ServiceDefinitionJsonFileProduction = @".\TestData\GraphWebServiceDefinition_Prod.json";
-
+        
         /// <summary>
         /// The tests are currently recorded against Azure Production, using the web service definition file specified by ServiceDefinitionJsonFileProduction.
         /// When testing new changes to the SDK, you can first record the test against dogfood using the ServiceDefinitionJsonFileDogfood file. Then once everything
         /// is working as expected, re-record the test against Prod before submitting an official pull request.
         /// </summary>
-        private const string TestServiceDefinitionFile = WebServiceTests.ServiceDefinitionJsonFileProduction;
+        private readonly string TestServiceDefinitionFile;
 
         private const int AsyncOperationPollingIntervalSeconds = 5;
 
-        private delegate void AMLWebServiceTestDelegate(string webServiceName, string resourceGroupName, ResourceManagementClient resourcesClient, AzureMLWebServicesManagementClient amlServicesClient, string cpResourceId);
-        
+        private delegate void AMLWebServiceTestDelegate(
+            string webServiceName, 
+            string resourceGroupName, 
+            ResourceManagementClient resourcesClient, 
+            AzureMLWebServicesManagementClient amlServicesClient, 
+            string cpResourceId, 
+            StorageAccount storageAccount);
+
+        public WebServiceTests()
+        {
+            TestServiceDefinitionFile = Path.Combine(Directory.GetCurrentDirectory(), "TestData", "GraphWebServiceDefinition_Prod.json");
+        }
+
         [Fact]
         public void CreateGetRemoveGraphWebService()
         {
-            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId) =>
+            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId, storageAccount) =>
             {
                 bool serviceWasRemoved = false;
                 try
@@ -69,7 +82,7 @@ namespace MachineLearning.Tests.ScenarioTests
                     amlServicesClient.WebServices.RemoveWithRequestId(resourceGroupName, webServiceName);
 
                     // Create and validate the AML service resource
-                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(WebServiceTests.TestServiceDefinitionFile, cpResourceId);
+                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(this.TestServiceDefinitionFile, cpResourceId, storageAccount);
                     var webService = amlServicesClient.WebServices.CreateOrUpdateWithRequestId(serviceDefinition, resourceGroupName, webServiceName);
                     WebServiceTests.ValidateWebServiceResource(amlServicesClient.SubscriptionId, resourceGroupName, webServiceName, webService, serviceDefinition);
 
@@ -106,12 +119,12 @@ namespace MachineLearning.Tests.ScenarioTests
         [Fact]
         public void CreateAndUpdateOnGraphWebService()
         {
-            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId) =>
+            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId, storageAccount) =>
             {
                 try
                 {
                     // Create and validate the AML service resource
-                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(WebServiceTests.TestServiceDefinitionFile, cpResourceId);
+                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(this.TestServiceDefinitionFile, cpResourceId, storageAccount);
                     var webService = amlServicesClient.WebServices.CreateOrUpdateWithRequestId(serviceDefinition, resourceGroupName, webServiceName);
                     WebServiceTests.ValidateWebServiceResource(amlServicesClient.SubscriptionId, resourceGroupName, webServiceName, webService, serviceDefinition);
 
@@ -151,7 +164,7 @@ namespace MachineLearning.Tests.ScenarioTests
         [Fact]
         public void CreateAndListWebServices()
         {
-            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId) =>
+            this.RunAMLWebServiceTestScenario((webServiceName, resourceGroupName, resourcesClient, amlServicesClient, cpResourceId, storageAccount) =>
             {
                 string service2Name = TestUtilities.GenerateName(WebServiceTests.TestServiceNamePrefix);
                 string service3Name = TestUtilities.GenerateName(WebServiceTests.TestServiceNamePrefix);
@@ -161,7 +174,7 @@ namespace MachineLearning.Tests.ScenarioTests
                 try
                 {
                     // Create a few webservices in the same resource group
-                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(WebServiceTests.TestServiceDefinitionFile, cpResourceId);
+                    var serviceDefinition = WebServiceTests.GetServiceDefinitionFromTestData(this.TestServiceDefinitionFile, cpResourceId, storageAccount);
                     var webService1 = amlServicesClient.WebServices.CreateOrUpdateWithRequestId(serviceDefinition, resourceGroupName, webServiceName);
                     WebServiceTests.ValidateWebServiceResource(amlServicesClient.SubscriptionId, resourceGroupName, webServiceName, webService1, serviceDefinition);
                     var webService2 = amlServicesClient.WebServices.CreateOrUpdateWithRequestId(serviceDefinition, resourceGroupName, service2Name);
@@ -220,11 +233,13 @@ namespace MachineLearning.Tests.ScenarioTests
                 bool testIsSuccessfull = true;
                 string cpRpApiVersion = string.Empty;
                 ResourceManagementClient resourcesClient = null;
+                StorageManagementClient storageManagementClient = null;
 
                 var amlServiceName = TestUtilities.GenerateName(WebServiceTests.TestServiceNamePrefix);
                 var resourceGroupName = TestUtilities.GenerateName(WebServiceTests.TestResourceGroupNamePrefix);
                 var commitmentPlanName = TestUtilities.GenerateName(WebServiceTests.TestCommitmentPlanNamePrefix);
                 var cpDeploymentName = "depl" + commitmentPlanName;
+                var storageAccountName = TestUtilities.GenerateName(WebServiceTests.TestStorageAccountPrefix);
 
                 try
                 {
@@ -236,6 +251,17 @@ namespace MachineLearning.Tests.ScenarioTests
                     };
                     resourcesClient.ResourceGroups.CreateOrUpdate(resourceGroupName, resourceGroupDefinition);
 
+                    // Create a support storage account for the service in this resource group
+                    storageManagementClient = context.GetServiceClient<StorageManagementClient>();
+                    var accountParameters = new StorageAccountCreateParameters
+                    {
+                        AccountType = AccountType.StandardLRS,
+                        Location = WebServiceTests.DefaultLocation
+                    };
+                    storageManagementClient.StorageAccounts.Create(resourceGroupName, storageAccountName, accountParameters);
+                    StorageAccountKeys accountKeys = storageManagementClient.StorageAccounts.ListKeys(resourceGroupName, storageAccountName);
+                    var storageAccountInfo = new StorageAccount(storageAccountName, accountKeys.Key1);
+
                     // Create an AML commitment plan resource to associate with the services
                     cpRpApiVersion = ResourceProvidersHelper.GetRPApiVersion(resourcesClient, WebServiceTests.MLResourceProviderNamespace, WebServiceTests.CPResourceType);
                     var cpDeploymentItems = WebServiceTests.CreateCommitmentPlanResource(resourceGroupName, commitmentPlanName, cpDeploymentName, resourcesClient, cpRpApiVersion);
@@ -246,7 +272,7 @@ namespace MachineLearning.Tests.ScenarioTests
                     webServicesClient.LongRunningOperationRetryTimeout = WebServiceTests.AsyncOperationPollingIntervalSeconds;
 
                     // Run the actual test
-                    actualTest(amlServiceName, resourceGroupName, resourcesClient, webServicesClient, cpResource.Id);
+                    actualTest(amlServiceName, resourceGroupName, resourcesClient, webServicesClient, cpResource.Id, storageAccountInfo);
                 }
                 catch (CloudException cloudEx)
                 {
@@ -265,6 +291,9 @@ namespace MachineLearning.Tests.ScenarioTests
                             WebServiceTests.DisposeOfTestResource(() => resourcesClient.Deployments.Delete(resourceGroupName, cpDeploymentName));
                         }
 
+                        // Delete the created storage account
+                        WebServiceTests.DisposeOfTestResource(() => storageManagementClient.StorageAccounts.Delete(resourceGroupName, storageAccountName));
+
                         // Delete the created resource group
                         WebServiceTests.DisposeOfTestResource(() => resourcesClient.ResourceGroups.Delete(resourceGroupName));
                     }
@@ -273,12 +302,13 @@ namespace MachineLearning.Tests.ScenarioTests
             }
         }
 
-        private static WebService GetServiceDefinitionFromTestData(string testDataFile, string commitmentPlanId)
+        private static WebService GetServiceDefinitionFromTestData(string testDataFile, string commitmentPlanId, StorageAccount storageAccount)
         {
             string serviceAsJson = File.ReadAllText(testDataFile);
             var serviceDefinition = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(serviceAsJson);
             serviceDefinition.Location = WebServiceTests.DefaultLocation;
             serviceDefinition.Properties.CommitmentPlan.Id = commitmentPlanId;
+            serviceDefinition.Properties.StorageAccount = storageAccount;
             return serviceDefinition;
         }
 
@@ -314,6 +344,11 @@ namespace MachineLearning.Tests.ScenarioTests
                 Assert.True((serviceProperties.Input != null && definitionProperties.Input != null) || (serviceProperties.Input == null && definitionProperties.Input == null));
                 Assert.True((serviceProperties.Output != null && definitionProperties.Output != null) || (serviceProperties.Output == null && definitionProperties.Output == null));
                 Assert.Equal(definitionProperties.Assets.Count, serviceProperties.Assets.Count);
+                Assert.Equal(definitionProperties.ExposeSampleData, serviceProperties.ExposeSampleData);
+
+                Assert.NotNull(serviceProperties.ExampleRequest);
+                Assert.NotNull(serviceProperties.ExampleRequest.Inputs);
+                Assert.Equal(definitionProperties.ExampleRequest.Inputs.Count, serviceProperties.ExampleRequest.Inputs.Count);
             }
         }
 
@@ -356,7 +391,7 @@ namespace MachineLearning.Tests.ScenarioTests
             string deploymentParams = @"{'planName': {'value': '" + commitmentPlanName + "'}, 'planSkuName': {'value': 'PLAN_SKU_NAME'}, 'planSkuTier': {'value': 'PLAN_SKU_TIER'}, 'apiVersion': {'value': '" + cpApiVersion + "'}}";
             var deploymentProperties = new DeploymentProperties
             {
-                Template = JObject.Parse(File.ReadAllText(@".\TestData\DeployCommitmentPlanTemplate.json")),
+                Template = JObject.Parse(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "TestData", "DeployCommitmentPlanTemplate.json"))),
                 Parameters = JObject.Parse(deploymentParams),
                 Mode = DeploymentMode.Incremental
             };
