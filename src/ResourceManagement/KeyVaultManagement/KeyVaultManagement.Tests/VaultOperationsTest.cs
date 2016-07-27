@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for
+// license information.
+// 
+
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Azure.Management.ResourceManager;
 using Microsoft.Azure.Management.ResourceManager.Models;
@@ -35,8 +40,7 @@ namespace KeyVault.Management.Tests
                     Permissions = new Permissions
                     {
                         Keys = new string[] { "all" },
-                        Secrets = null,
-                        Certificates = new string[] { "all" }
+                        Secrets = null
                     }
                 };
                 var createdVault = client.Vaults.CreateOrUpdate(
@@ -127,7 +131,7 @@ namespace KeyVault.Management.Tests
                     tags);
 
                 // Delete
-                var deletedVault = client.Vaults.Delete(
+                client.Vaults.Delete(
                     resourceGroupName: rgName,
                     vaultName: vaultName);
 
@@ -164,8 +168,7 @@ namespace KeyVault.Management.Tests
                     Permissions = new Permissions
                     {
                         Keys = new string[] { "all" },
-                        Secrets = null,
-                        Certificates = new string[] { "all" }
+                        Secrets = null
                     }
                 };
                 var createVault = client.Vaults.CreateOrUpdate(
@@ -226,7 +229,7 @@ namespace KeyVault.Management.Tests
 
 
                 // Delete
-                var deleteVault = client.Vaults.Delete(
+                client.Vaults.Delete(
                     resourceGroupName: rgName,
                     vaultName: vaultName);
 
@@ -355,8 +358,7 @@ namespace KeyVault.Management.Tests
                                         ObjectId = objectIdGuid,
                                         Permissions = new Permissions{
                                             Keys = new string[]{"all"},
-                                            Secrets = new string[]{"all"},
-                                            Certificates = new string[] { "all" }
+                                            Secrets = new string[]{"all"}
                                         }
                                     }
                                 }
