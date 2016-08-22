@@ -1,6 +1,10 @@
 {
   "projects": [
+<<<<<<< HEAD
     "src/KeyVault"
+=======
+    "src/KeyVault",
+>>>>>>> keyvault2
     "src/TestFramework/Microsoft.Azure.Test.HttpRecorder",
     "src/TestFramework/Microsoft.Rest.ClientRuntime.Azure.TestFramework",
     "src/Search/Microsoft.Azure.Search",
