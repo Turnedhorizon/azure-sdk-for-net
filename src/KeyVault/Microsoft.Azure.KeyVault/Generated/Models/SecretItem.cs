@@ -36,7 +36,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <param name="contentType">Type of the secret value such as a
         /// password</param>
         /// <param name="managed">True if the secret's lifetime is managed by
-        /// key vault i.e. if this is a key backing a certificate, then
+        /// key vault i.e. if this is a secret backing a certificate, then
         /// managed will be true.</param>
         public SecretItem(string id = default(string), SecretAttributes attributes = default(SecretAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>), string contentType = default(string), bool? managed = default(bool?))
         {
@@ -74,7 +74,7 @@ namespace Microsoft.Azure.KeyVault.Models
 
         /// <summary>
         /// Gets true if the secret's lifetime is managed by key vault i.e. if
-        /// this is a key backing a certificate, then managed will be true.
+        /// this is a secret backing a certificate, then managed will be true.
         /// </summary>
         [JsonProperty(PropertyName = "managed")]
         public bool? Managed { get; private set; }
