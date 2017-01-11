@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1-preview",
+  "version": "2.0.2",
   "title": "Microsoft Azure Key Vault Management",
   "description": "Provides key vault management capabilities for Microsoft Azure.",
   "authors": [ "Microsoft" ],
@@ -10,7 +10,7 @@
     "iconUrl": "http://go.microsoft.com/fwlink/?LinkID=288890",
     "tags": [ "Microsoft Azure key vault management", "Key Vault", "REST HTTP client", "azureofficial", "windowsazureofficial" ],
     "requireLicenseAcceptance": true,
-    "releaseNotes": "This is a preview release of the Azure Key Vault .NET SDK, based on version 2015-06-01 of the Azure Key Vault REST API."
+    "releaseNotes": "This is a release of the Azure Key Vault .NET SDK, based on version 2015-06-01 of the Azure Key Vault REST API."
   },
 
   "buildOptions": {
