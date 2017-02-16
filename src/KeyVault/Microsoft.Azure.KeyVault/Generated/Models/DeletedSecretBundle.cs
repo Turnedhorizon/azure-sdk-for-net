@@ -30,17 +30,17 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the DeletedSecretBundle class.
         /// </summary>
-        /// <param name="value">The secret value </param>
-        /// <param name="id">The secret id</param>
-        /// <param name="contentType">The content type of the secret</param>
-        /// <param name="attributes">The secret management attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="value">The secret value.</param>
+        /// <param name="id">The secret id.</param>
+        /// <param name="contentType">The content type of the secret.</param>
+        /// <param name="attributes">The secret management attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="kid">If this is a secret backing a KV certificate,
         /// then this field specifies the corresponding key backing the KV
         /// certificate.</param>
         /// <param name="managed">True if the secret's lifetime is managed by
-        /// key vault i.e. if this is a secret backing a certificate, then
+        /// key vault. If this is a secret backing a certificate, then
         /// managed will be true.</param>
         /// <param name="recoveryId">The url of the recovery object, used to
         /// identify and recover the deleted secret.</param>

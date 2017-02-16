@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The secret item containing secret metadata
+    /// The secret item containing secret metadata.
     /// </summary>
     public partial class SecretItem
     {
@@ -29,15 +29,15 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the SecretItem class.
         /// </summary>
-        /// <param name="id">Secret Identifier</param>
-        /// <param name="attributes">The secret management attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="id">Secret identifier.</param>
+        /// <param name="attributes">The secret management attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="contentType">Type of the secret value such as a
-        /// password</param>
+        /// password.</param>
         /// <param name="managed">True if the secret's lifetime is managed by
-        /// key vault i.e. if this is a secret backing a certificate, then
-        /// managed will be true.</param>
+        /// key vault. If this is a key backing a certificate, then managed
+        /// will be true.</param>
         public SecretItem(string id = default(string), SecretAttributes attributes = default(SecretAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>), string contentType = default(string), bool? managed = default(bool?))
         {
             Id = id;
@@ -48,33 +48,33 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets secret Identifier
+        /// Gets or sets secret identifier.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the secret management attributes
+        /// Gets or sets the secret management attributes.
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public SecretAttributes Attributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }
 
         /// <summary>
-        /// Gets or sets type of the secret value such as a password
+        /// Gets or sets type of the secret value such as a password.
         /// </summary>
         [JsonProperty(PropertyName = "contentType")]
         public string ContentType { get; set; }
 
         /// <summary>
-        /// Gets true if the secret's lifetime is managed by key vault i.e. if
-        /// this is a secret backing a certificate, then managed will be true.
+        /// Gets true if the secret's lifetime is managed by key vault. If
+        /// this is a key backing a certificate, then managed will be true.
         /// </summary>
         [JsonProperty(PropertyName = "managed")]
         public bool? Managed { get; private set; }

@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The secret update parameters
+    /// The secret update parameters.
     /// </summary>
     public partial class SecretUpdateParameters
     {
@@ -30,11 +30,11 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the SecretUpdateParameters class.
         /// </summary>
         /// <param name="contentType">Type of the secret value such as a
-        /// password</param>
+        /// password.</param>
         /// <param name="secretAttributes">The secret management
-        /// attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         public SecretUpdateParameters(string contentType = default(string), SecretAttributes secretAttributes = default(SecretAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
             ContentType = contentType;
@@ -43,20 +43,20 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets type of the secret value such as a password
+        /// Gets or sets type of the secret value such as a password.
         /// </summary>
         [JsonProperty(PropertyName = "contentType")]
         public string ContentType { get; set; }
 
         /// <summary>
-        /// Gets or sets the secret management attributes
+        /// Gets or sets the secret management attributes.
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public SecretAttributes SecretAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }

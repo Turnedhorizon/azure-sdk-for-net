@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key verify parameters
+    /// The key verify parameters.
     /// </summary>
     public partial class KeyVerifyParameters
     {
@@ -33,8 +33,8 @@ namespace Microsoft.Azure.KeyVault.Models
         /// more information on possible algorithm types, see
         /// JsonWebKeySignatureAlgorithm. Possible values include: 'RS256',
         /// 'RS384', 'RS512', 'RSNULL'</param>
-        /// <param name="digest">The digest used for signing</param>
-        /// <param name="signature">The signature to be verified</param>
+        /// <param name="digest">The digest used for signing.</param>
+        /// <param name="signature">The signature to be verified.</param>
         public KeyVerifyParameters(string algorithm, byte[] digest, byte[] signature)
         {
             Algorithm = algorithm;
@@ -52,14 +52,14 @@ namespace Microsoft.Azure.KeyVault.Models
         public string Algorithm { get; set; }
 
         /// <summary>
-        /// Gets or sets the digest used for signing
+        /// Gets or sets the digest used for signing.
         /// </summary>
         [JsonConverter(typeof(Base64UrlJsonConverter))]
         [JsonProperty(PropertyName = "digest")]
         public byte[] Digest { get; set; }
 
         /// <summary>
-        /// Gets or sets the signature to be verified
+        /// Gets or sets the signature to be verified.
         /// </summary>
         [JsonConverter(typeof(Base64UrlJsonConverter))]
         [JsonProperty(PropertyName = "value")]

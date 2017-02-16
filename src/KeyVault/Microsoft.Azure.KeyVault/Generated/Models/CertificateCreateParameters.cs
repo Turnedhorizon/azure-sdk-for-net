@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The certificate create parameters
+    /// The certificate create parameters.
     /// </summary>
     public partial class CertificateCreateParameters
     {
@@ -32,11 +32,11 @@ namespace Microsoft.Azure.KeyVault.Models
         /// class.
         /// </summary>
         /// <param name="certificatePolicy">The management policy for the
-        /// certificate</param>
+        /// certificate.</param>
         /// <param name="certificateAttributes">The attributes of the
-        /// certificate (optional)</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// certificate (optional).</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         public CertificateCreateParameters(CertificatePolicy certificatePolicy = default(CertificatePolicy), CertificateAttributes certificateAttributes = default(CertificateAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
             CertificatePolicy = certificatePolicy;
@@ -45,20 +45,20 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets the management policy for the certificate
+        /// Gets or sets the management policy for the certificate.
         /// </summary>
         [JsonProperty(PropertyName = "policy")]
         public CertificatePolicy CertificatePolicy { get; set; }
 
         /// <summary>
-        /// Gets or sets the attributes of the certificate (optional)
+        /// Gets or sets the attributes of the certificate (optional).
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public CertificateAttributes CertificateAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }

@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The secret set parameters
+    /// The secret set parameters.
     /// </summary>
     public partial class SecretSetParameters
     {
@@ -29,13 +29,13 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the SecretSetParameters class.
         /// </summary>
-        /// <param name="value">The value of the secret</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="value">The value of the secret.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="contentType">Type of the secret value such as a
-        /// password</param>
+        /// password.</param>
         /// <param name="secretAttributes">The secret management
-        /// attributes</param>
+        /// attributes.</param>
         public SecretSetParameters(string value, IDictionary<string, string> tags = default(IDictionary<string, string>), string contentType = default(string), SecretAttributes secretAttributes = default(SecretAttributes))
         {
             Value = value;
@@ -45,26 +45,26 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets the value of the secret
+        /// Gets or sets the value of the secret.
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public string Value { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }
 
         /// <summary>
-        /// Gets or sets type of the secret value such as a password
+        /// Gets or sets type of the secret value such as a password.
         /// </summary>
         [JsonProperty(PropertyName = "contentType")]
         public string ContentType { get; set; }
 
         /// <summary>
-        /// Gets or sets the secret management attributes
+        /// Gets or sets the secret management attributes.
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public SecretAttributes SecretAttributes { get; set; }

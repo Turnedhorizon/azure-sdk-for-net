@@ -30,13 +30,13 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the DeletedKeyItem class.
         /// </summary>
-        /// <param name="kid">Key Identifier</param>
-        /// <param name="attributes">The key management attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="kid">Key identifier.</param>
+        /// <param name="attributes">The key management attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="managed">True if the key's lifetime is managed by key
-        /// vault i.e. if this is a key backing a certificate, then managed
-        /// will be true.</param>
+        /// vault. If this is a key backing a certificate, then managed will
+        /// be true.</param>
         /// <param name="recoveryId">The url of the recovery object, used to
         /// identify and recover the deleted key.</param>
         /// <param name="scheduledPurgeDate">The time when the key is

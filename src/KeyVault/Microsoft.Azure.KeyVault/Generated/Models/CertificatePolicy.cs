@@ -29,7 +29,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the CertificatePolicy class.
         /// </summary>
-        /// <param name="id">The certificate id</param>
+        /// <param name="id">The certificate id.</param>
         /// <param name="keyProperties">Properties of the key backing a
         /// certificate.</param>
         /// <param name="secretProperties">Properties of the secret backing a
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets the certificate id
+        /// Gets the certificate id.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; private set; }

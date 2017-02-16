@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The certificate import parameters
+    /// The certificate import parameters.
     /// </summary>
     public partial class CertificateImportParameters
     {
@@ -36,13 +36,13 @@ namespace Microsoft.Azure.KeyVault.Models
         /// certificate needs to contain the private key.</param>
         /// <param name="password">If the private key in
         /// base64EncodedCertificate is encrypted, the password used for
-        /// encryption</param>
+        /// encryption.</param>
         /// <param name="certificatePolicy">The management policy for the
-        /// certificate</param>
+        /// certificate.</param>
         /// <param name="certificateAttributes">The attributes of the
-        /// certificate (optional)</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// certificate (optional).</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         public CertificateImportParameters(string base64EncodedCertificate, string password = default(string), CertificatePolicy certificatePolicy = default(CertificatePolicy), CertificateAttributes certificateAttributes = default(CertificateAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
             Base64EncodedCertificate = base64EncodedCertificate;
@@ -62,26 +62,26 @@ namespace Microsoft.Azure.KeyVault.Models
 
         /// <summary>
         /// Gets or sets if the private key in base64EncodedCertificate is
-        /// encrypted, the password used for encryption
+        /// encrypted, the password used for encryption.
         /// </summary>
         [JsonProperty(PropertyName = "pwd")]
         public string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the management policy for the certificate
+        /// Gets or sets the management policy for the certificate.
         /// </summary>
         [JsonProperty(PropertyName = "policy")]
         public CertificatePolicy CertificatePolicy { get; set; }
 
         /// <summary>
-        /// Gets or sets the attributes of the certificate (optional)
+        /// Gets or sets the attributes of the certificate (optional).
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public CertificateAttributes CertificateAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }

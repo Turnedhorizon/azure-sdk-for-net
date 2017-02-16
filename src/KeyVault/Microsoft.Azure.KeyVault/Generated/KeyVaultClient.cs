@@ -27,8 +27,8 @@ namespace Microsoft.Azure.KeyVault
     using Microsoft.Azure.KeyVault.WebKey;
 
     /// <summary>
-    /// Performs cryptographic key operations and vault operations against the
-    /// Key Vault service.
+    /// The key vault client performs cryptographic key operations and vault
+    /// operations against the Key Vault service.
     /// </summary>
     public partial class KeyVaultClient : ServiceClient<KeyVaultClient>, IKeyVaultClient, IAzureClient
     {
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.KeyVault
         public ServiceClientCredentials Credentials { get; private set; }
 
         /// <summary>
-        /// Client Api Version.
+        /// Client API version.
         /// </summary>
         public string ApiVersion { get; private set; }
 
@@ -195,28 +195,33 @@ namespace Microsoft.Azure.KeyVault
             DeserializationSettings.Converters.Add(new CloudErrorJsonConverter()); 
         }    
         /// <summary>
-        /// Creates a new, named, key in the specified vault.
+        /// Creates a new key, stores it, then returns key parameters and attributes
+        /// to the client. The create key operation can be used to create any key
+        /// type in Azure Key Vault. If the named key already exists, Azure Key Vault
+        /// creates a new version of the key. Authorization: Requires the keys/create
+        /// permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name for the new key. The system will generate the version name for
+        /// the new key.
         /// </param>
         /// <param name='kty'>
-        /// The type of key to create. Valid key types, see JsonWebKeyType. Supported
-        /// JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet. Possible
-        /// values include: 'EC', 'RSA', 'RSA-HSM', 'oct'
+        /// The type of key to create. For valid key types, see JsonWebKeyType.
+        /// Supported JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet.
+        /// Possible values include: 'EC', 'RSA', 'RSA-HSM', 'oct'
         /// </param>
         /// <param name='keySize'>
-        /// The key size in bytes. e.g. 1024 or 2048.
+        /// The key size in bytes. For example, 1024 or 2048.
         /// </param>
         /// <param name='keyOps'>
         /// </param>
         /// <param name='keyAttributes'>
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -425,25 +430,29 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Imports a key into the specified vault
+        /// Imports an externally created key, stores it, and returns key parameters
+        /// and attributes to the client. The import key operation may be used to
+        /// import any key type into an Azure Key Vault. If the named key already
+        /// exists, Azure Key Vault creates a new version of the key. Authorization:
+        /// requires the keys/import permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// Name for the imported key.
         /// </param>
         /// <param name='key'>
         /// The Json web key
         /// </param>
         /// <param name='hsm'>
-        /// Whether to import as a hardware key (HSM) or software key
+        /// Whether to import as a hardware key (HSM) or software key.
         /// </param>
         /// <param name='keyAttributes'>
-        /// The key management attributes
+        /// The key management attributes.
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -644,13 +653,18 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Deletes the specified key
+        /// Deletes a key of any type from storage in Azure Key Vault. The delete key
+        /// operation cannot be used to remove individual versions of a key. This
+        /// operation removes the cryptographic material associated with the key,
+        /// which means the key is not usable for Sign/Verify, Wrap/Unwrap or
+        /// Encrypt/Decrypt operations. Authorization: Requires the keys/delete
+        /// permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key to delete.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -825,16 +839,20 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Updates the Key Attributes associated with the specified key
+        /// The update key operation changes specified attributes of a stored key and
+        /// can be applied to any key type and key version stored in Azure Key Vault.
+        /// The cryptographic material of a key itself cannot be changed. In order to
+        /// perform this operation, the key must already exist in the Key Vault.
+        /// Authorization: requires the keys/update permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of key to update.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key to update.
         /// </param>
         /// <param name='keyOps'>
         /// Json web key operations. For more information on possible key operations,
@@ -843,7 +861,7 @@ namespace Microsoft.Azure.KeyVault
         /// <param name='keyAttributes'>
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1038,16 +1056,19 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Retrieves the public portion of a key plus its attributes
+        /// Gets the public part of a stored key. The get key operation is applicable
+        /// to all key types. If the requested key is symmetric, then no key material
+        /// is released in the response. Authorization: Requires the keys/get
+        /// permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key to get.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// Adding the version parameter retrieves a specific version of a key.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1228,13 +1249,15 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List the versions of the specified key
+        /// Retrieves a list of individual key versions with the same key name. The
+        /// full key identifier, attributes, and tags are provided in the response.
+        /// Authorization: Requires the keys/list permission.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -1426,10 +1449,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List keys in the specified vault
+        /// List keys in the specified vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -1618,10 +1641,10 @@ namespace Microsoft.Azure.KeyVault
         /// Requests that a backup of the specified key be downloaded to the client.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1796,13 +1819,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Restores the backup key in to a vault
+        /// Restores a backed up key to a vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyBundleBackup'>
-        /// the backup blob associated with a key bundle
+        /// The backup blob associated with a key bundle.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1988,16 +2011,16 @@ namespace Microsoft.Azure.KeyVault
 
         /// <summary>
         /// Encrypts an arbitrary sequence of bytes using an encryption key that is
-        /// stored in Azure Key Vault.
+        /// stored in a key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA1_5'
@@ -2211,16 +2234,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Decrypts a single block of encrypted data
+        /// Decrypts a single block of encrypted data.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA1_5'
@@ -2434,16 +2457,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Creates a signature from a digest using the specified key in the vault
+        /// Creates a signature from a digest using the specified key.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// The signing/verification algorithm identifier. For more information on
@@ -2659,16 +2682,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Verifies a signature using the specified key
+        /// Verifies a signature using a specified key.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// The signing/verification algorithm. For more information on possible
@@ -2676,10 +2699,10 @@ namespace Microsoft.Azure.KeyVault
         /// include: 'RS256', 'RS384', 'RS512', 'RSNULL'
         /// </param>
         /// <param name='digest'>
-        /// The digest used for signing
+        /// The digest used for signing.
         /// </param>
         /// <param name='signature'>
-        /// The signature to be verified
+        /// The signature to be verified.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -2893,16 +2916,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Wraps a symmetric key using the specified key
+        /// Wraps a symmetric key using a specified key.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA1_5'
@@ -3116,17 +3139,17 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Unwraps a symmetric key using the specified key in the vault that has
-        /// initially been used for wrapping the key.
+        /// Unwraps a symmetric key using the specified key that was initially used
+        /// for wrapping that key.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
-        /// The name of the key
+        /// The name of the key.
         /// </param>
         /// <param name='keyVersion'>
-        /// The version of the key
+        /// The version of the key.
         /// </param>
         /// <param name='algorithm'>
         /// algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA1_5'
@@ -3343,7 +3366,7 @@ namespace Microsoft.Azure.KeyVault
         /// List deleted keys in the specified vault
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -3532,7 +3555,7 @@ namespace Microsoft.Azure.KeyVault
         /// Retrieves the deleted key information plus its attributes
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
         /// The name of the key
@@ -3713,7 +3736,7 @@ namespace Microsoft.Azure.KeyVault
         /// Deletes the specified key forever. aka purges the key.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
         /// The name of the key
@@ -3873,7 +3896,7 @@ namespace Microsoft.Azure.KeyVault
         /// Recovers the deleted key back to its current version under /keys
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='keyName'>
         /// The name of the deleted key
@@ -4051,25 +4074,25 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Sets a secret in the specified vault.
+        /// Sets a secret in a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
-        /// The name of the secret in the given vault
+        /// The name of the secret.
         /// </param>
         /// <param name='value'>
-        /// The value of the secret
+        /// The value of the secret.
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='contentType'>
-        /// Type of the secret value such as a password
+        /// Type of the secret value such as a password.
         /// </param>
         /// <param name='secretAttributes'>
-        /// The secret management attributes
+        /// The secret management attributes.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -4270,13 +4293,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Deletes a secret from the specified vault.
+        /// Deletes a secret from a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
-        /// The name of the secret in the given vault
+        /// The name of the secret.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -4451,25 +4474,26 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Updates the attributes associated with the specified secret
+        /// Updates the attributes associated with a specified secret in a given key
+        /// vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
-        /// The name of the secret in the given vault
+        /// The name of the secret.
         /// </param>
         /// <param name='secretVersion'>
-        /// The version of the secret
+        /// The version of the secret.
         /// </param>
         /// <param name='contentType'>
-        /// Type of the secret value such as a password
+        /// Type of the secret value such as a password.
         /// </param>
         /// <param name='secretAttributes'>
-        /// The secret management attributes
+        /// The secret management attributes.
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -4664,16 +4688,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets a secret.
+        /// Get a specified secret from a given key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
-        /// The name of the secret in the given vault
+        /// The name of the secret.
         /// </param>
         /// <param name='secretVersion'>
-        /// The version of the secret
+        /// The version of the secret.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -4854,10 +4878,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List secrets in the specified vault
+        /// List secrets in a specified key vault
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -5043,13 +5067,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List the versions of the specified secret
+        /// List the versions of the specified secret.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
-        /// The name of the secret in the given vault
+        /// The name of the secret.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -5244,7 +5268,7 @@ namespace Microsoft.Azure.KeyVault
         /// List deleted secrets in the specified vault
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -5433,7 +5457,7 @@ namespace Microsoft.Azure.KeyVault
         /// Retrieves the deleted secret information plus its attributes
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
         /// The name of the secret
@@ -5614,7 +5638,7 @@ namespace Microsoft.Azure.KeyVault
         /// Deletes the specified secret forever. aka purges the secret.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
         /// The name of the secret
@@ -5774,7 +5798,7 @@ namespace Microsoft.Azure.KeyVault
         /// Recovers the deleted secret back to its current version under /secrets
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='secretName'>
         /// The name of the deleted secret
@@ -5952,10 +5976,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List certificates in the specified vault
+        /// List certificates in a specified key vault
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -6141,13 +6165,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Deletes a certificate from the specified vault.
+        /// Deletes a certificate from a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate in the given vault
+        /// The name of the certificate.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -6322,13 +6346,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Sets the certificate contacts for the specified vault.
+        /// Sets the certificate contacts for the specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='contacts'>
-        /// The contacts for the vault certificates.
+        /// The contacts for the key vault certificate.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -6508,10 +6532,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets the certificate contacts for the specified vault.
+        /// Lists the certificate contacts for a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -6680,10 +6704,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Deletes the certificate contacts for the specified vault.
+        /// Deletes the certificate contacts for a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -6852,10 +6876,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List certificate issuers for the specified vault.
+        /// List certificate issuers for a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -7044,7 +7068,7 @@ namespace Microsoft.Azure.KeyVault
         /// Sets the specified certificate issuer.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='issuerName'>
         /// The name of the issuer.
@@ -7256,7 +7280,7 @@ namespace Microsoft.Azure.KeyVault
         /// Updates the specified certificate issuer.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='issuerName'>
         /// The name of the issuer.
@@ -7461,10 +7485,10 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets the specified certificate issuer.
+        /// Lists the specified certificate issuer.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='issuerName'>
         /// The name of the issuer.
@@ -7645,7 +7669,7 @@ namespace Microsoft.Azure.KeyVault
         /// Deletes the specified certificate issuer.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='issuerName'>
         /// The name of the issuer.
@@ -7823,23 +7847,23 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Creates a new certificate version. If this is the first version, the
-        /// certificate resource is created.
+        /// Creates a new certificate. If this is the first version, the certificate
+        /// resource is created.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='certificatePolicy'>
-        /// The management policy for the certificate
+        /// The management policy for the certificate.
         /// </param>
         /// <param name='certificateAttributes'>
-        /// The attributes of the certificate (optional)
+        /// The attributes of the certificate (optional).
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -8039,13 +8063,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Imports a certificate into the specified vault
+        /// Imports a certificate into a specified key vault.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='base64EncodedCertificate'>
         /// Base64 encoded representation of the certificate object to import. This
@@ -8053,16 +8077,16 @@ namespace Microsoft.Azure.KeyVault
         /// </param>
         /// <param name='password'>
         /// If the private key in base64EncodedCertificate is encrypted, the password
-        /// used for encryption
+        /// used for encryption.
         /// </param>
         /// <param name='certificatePolicy'>
-        /// The management policy for the certificate
+        /// The management policy for the certificate.
         /// </param>
         /// <param name='certificateAttributes'>
-        /// The attributes of the certificate (optional)
+        /// The attributes of the certificate (optional).
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -8271,10 +8295,10 @@ namespace Microsoft.Azure.KeyVault
         /// List the versions of a certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='maxresults'>
         /// Maximum number of results to return in a page. If not specified the
@@ -8466,13 +8490,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets the policy for a certificate.
+        /// Lists the policy for a certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate in the given vault.
+        /// The name of the certificate in a given key vault.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -8647,11 +8671,11 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Updates the policy for a certificate. Set appropriate members in the
-        /// certificatePolicy that must be updated. Leave others as null.
+        /// Updates the policy for a certificate. Set specified members in the
+        /// certificate policy. Leave others as null.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
         /// The name of the certificate in the given vault.
@@ -8843,25 +8867,25 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Updates the attributes associated with the specified certificate
+        /// Updates the specified attributes associated with the given certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate in the given vault
+        /// The name of the certificate in the given key vault.
         /// </param>
         /// <param name='certificateVersion'>
-        /// The version of the certificate
+        /// The version of the certificate.
         /// </param>
         /// <param name='certificatePolicy'>
-        /// The management policy for the certificate
+        /// The management policy for the certificate.
         /// </param>
         /// <param name='certificateAttributes'>
-        /// The attributes of the certificate (optional)
+        /// The attributes of the certificate (optional).
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -9060,16 +9084,16 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets a Certificate.
+        /// Gets information about a specified certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate in the given vault
+        /// The name of the certificate in the given vault.
         /// </param>
         /// <param name='certificateVersion'>
-        /// The version of the certificate
+        /// The version of the certificate.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -9253,10 +9277,10 @@ namespace Microsoft.Azure.KeyVault
         /// Updates a certificate operation.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='cancellationRequested'>
         /// Indicates if cancellation was requested on the certificate operation.
@@ -9443,13 +9467,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Gets the certificate operation response.
+        /// Gets the operation associated with a specified certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -9624,13 +9648,13 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// Deletes the certificate operation.
+        /// Deletes the operation for a specified certificate.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -9809,19 +9833,19 @@ namespace Microsoft.Azure.KeyVault
         /// the server.
         /// </summary>
         /// <param name='vaultBaseUrl'>
-        /// The vault name, e.g. https://myvault.vault.azure.net
+        /// The vault name, for example https://myvault.vault.azure.net.
         /// </param>
         /// <param name='certificateName'>
-        /// The name of the certificate
+        /// The name of the certificate.
         /// </param>
         /// <param name='x509Certificates'>
-        /// The certificate or the certificate chain to merge
+        /// The certificate or the certificate chain to merge.
         /// </param>
         /// <param name='certificateAttributes'>
-        /// The attributes of the certificate (optional)
+        /// The attributes of the certificate (optional).
         /// </param>
         /// <param name='tags'>
-        /// Application-specific metadata in the form of key-value pairs
+        /// Application specific metadata in the form of key-value pairs.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -10014,7 +10038,9 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List the versions of the specified key
+        /// Retrieves a list of individual key versions with the same key name. The
+        /// full key identifier, attributes, and tags are provided in the response.
+        /// Authorization: Requires the keys/list permission.
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.
@@ -10177,7 +10203,7 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List keys in the specified vault
+        /// List keys in the specified vault.
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.
@@ -10503,7 +10529,7 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List secrets in the specified vault
+        /// List secrets in a specified key vault
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.
@@ -10666,7 +10692,7 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List the versions of the specified secret
+        /// List the versions of the specified secret.
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.
@@ -10992,7 +11018,7 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List certificates in the specified vault
+        /// List certificates in a specified key vault
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.
@@ -11155,7 +11181,7 @@ namespace Microsoft.Azure.KeyVault
         }
 
         /// <summary>
-        /// List certificate issuers for the specified vault.
+        /// List certificate issuers for a specified key vault.
         /// </summary>
         /// <param name='nextPageLink'>
         /// The NextLink from the previous successful call to List operation.

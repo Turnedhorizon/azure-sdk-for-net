@@ -29,15 +29,15 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the DeletedSecretItem class.
         /// </summary>
-        /// <param name="id">Secret Identifier</param>
-        /// <param name="attributes">The secret management attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="id">Secret identifier.</param>
+        /// <param name="attributes">The secret management attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="contentType">Type of the secret value such as a
-        /// password</param>
+        /// password.</param>
         /// <param name="managed">True if the secret's lifetime is managed by
-        /// key vault i.e. if this is a secret backing a certificate, then
-        /// managed will be true.</param>
+        /// key vault. If this is a key backing a certificate, then managed
+        /// will be true.</param>
         /// <param name="recoveryId">The url of the recovery object, used to
         /// identify and recover the deleted secret.</param>
         /// <param name="scheduledPurgeDate">The time when the secret is

@@ -30,11 +30,11 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the CertificateMergeParameters class.
         /// </summary>
         /// <param name="x509Certificates">The certificate or the certificate
-        /// chain to merge</param>
+        /// chain to merge.</param>
         /// <param name="certificateAttributes">The attributes of the
-        /// certificate (optional)</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// certificate (optional).</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         public CertificateMergeParameters(IList<byte[]> x509Certificates, CertificateAttributes certificateAttributes = default(CertificateAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
             X509Certificates = x509Certificates;
@@ -43,20 +43,20 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets the certificate or the certificate chain to merge
+        /// Gets or sets the certificate or the certificate chain to merge.
         /// </summary>
         [JsonProperty(PropertyName = "x5c")]
         public IList<byte[]> X509Certificates { get; set; }
 
         /// <summary>
-        /// Gets or sets the attributes of the certificate (optional)
+        /// Gets or sets the attributes of the certificate (optional).
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public CertificateAttributes CertificateAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }

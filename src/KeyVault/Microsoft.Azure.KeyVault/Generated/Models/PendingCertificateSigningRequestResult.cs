@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The pending certificate signing request result
+    /// The pending certificate signing request result.
     /// </summary>
     public partial class PendingCertificateSigningRequestResult
     {

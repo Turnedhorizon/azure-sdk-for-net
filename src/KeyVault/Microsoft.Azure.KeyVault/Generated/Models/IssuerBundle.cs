@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The issuer for Key Vault certificate
+    /// The issuer for Key Vault certificate.
     /// </summary>
     public partial class IssuerBundle
     {

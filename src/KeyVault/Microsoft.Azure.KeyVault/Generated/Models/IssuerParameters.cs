@@ -30,7 +30,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the IssuerParameters class.
         /// </summary>
         /// <param name="name">Name of the referenced issuer object or
-        /// reserved names e.g. 'Self', 'Unknown'.</param>
+        /// reserved names; for example, 'Self' or 'Unknown'.</param>
         /// <param name="certificateType">Type of certificate to be requested
         /// from the issuer provider.</param>
         public IssuerParameters(string name = default(string), string certificateType = default(string))
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.KeyVault.Models
 
         /// <summary>
         /// Gets or sets name of the referenced issuer object or reserved
-        /// names e.g. 'Self', 'Unknown'.
+        /// names; for example, 'Self' or 'Unknown'.
         /// </summary>
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

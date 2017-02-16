@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// the key vault error exception
+    /// The key vault error exception.
     /// </summary>
     public partial class KeyVaultError
     {

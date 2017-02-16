@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key operation result
+    /// The key operation result.
     /// </summary>
     public partial class KeyOperationResult
     {

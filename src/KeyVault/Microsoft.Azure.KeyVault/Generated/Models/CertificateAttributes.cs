@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The certificate management attributes
+    /// The certificate management attributes.
     /// </summary>
     public partial class CertificateAttributes : Attributes
     {
@@ -30,11 +30,11 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the CertificateAttributes class.
         /// </summary>
         /// <param name="enabled">Determines whether the object is
-        /// enabled</param>
-        /// <param name="notBefore">Not before date in UTC</param>
-        /// <param name="expires">Expiry date in UTC</param>
-        /// <param name="created">Creation time in UTC</param>
-        /// <param name="updated">Last updated time in UTC</param>
+        /// enabled.</param>
+        /// <param name="notBefore">Not before date in UTC.</param>
+        /// <param name="expires">Expiry date in UTC.</param>
+        /// <param name="created">Creation time in UTC.</param>
+        /// <param name="updated">Last updated time in UTC.</param>
         public CertificateAttributes(bool? enabled = default(bool?), DateTime? notBefore = default(DateTime?), DateTime? expires = default(DateTime?), DateTime? created = default(DateTime?), DateTime? updated = default(DateTime?))
             : base(enabled, notBefore, expires, created, updated)
         {

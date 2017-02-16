@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key verify result
+    /// The key verify result.
     /// </summary>
     public partial class KeyVerifyResult
     {
@@ -29,15 +29,15 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the KeyVerifyResult class.
         /// </summary>
-        /// <param name="value">true if the signature is verified, false
-        /// otherwise.</param>
+        /// <param name="value">True if the signature is verified, otherwise
+        /// false.</param>
         public KeyVerifyResult(bool? value = default(bool?))
         {
             Value = value;
         }
 
         /// <summary>
-        /// Gets true if the signature is verified, false otherwise.
+        /// Gets true if the signature is verified, otherwise false.
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public bool? Value { get; private set; }

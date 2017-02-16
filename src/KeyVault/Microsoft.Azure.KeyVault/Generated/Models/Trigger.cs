@@ -29,7 +29,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the Trigger class.
         /// </summary>
-        /// <param name="lifetimePercentage">Percentage of lifetime as which
+        /// <param name="lifetimePercentage">Percentage of lifetime at which
         /// to trigger. Value should be between 1 and 99.</param>
         /// <param name="daysBeforeExpiry">Days before expiry.</param>
         public Trigger(int? lifetimePercentage = default(int?), int? daysBeforeExpiry = default(int?))
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets percentage of lifetime as which to trigger. Value
+        /// Gets or sets percentage of lifetime at which to trigger. Value
         /// should be between 1 and 99.
         /// </summary>
         [JsonProperty(PropertyName = "lifetime_percentage")]

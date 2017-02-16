@@ -32,7 +32,8 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <param name="exportable">Indicates if the private key can be
         /// exported.</param>
         /// <param name="keyType">The key type.</param>
-        /// <param name="keySize">The key size in bytes. e.g. 2048.</param>
+        /// <param name="keySize">The key size in bytes. For example;  1024 or
+        /// 2048.</param>
         /// <param name="reuseKey">Indicates if the same key pair will be used
         /// on certificate renewal.</param>
         public KeyProperties(bool? exportable = default(bool?), string keyType = default(string), int? keySize = default(int?), bool? reuseKey = default(bool?))
@@ -56,7 +57,7 @@ namespace Microsoft.Azure.KeyVault.Models
         public string KeyType { get; set; }
 
         /// <summary>
-        /// Gets or sets the key size in bytes. e.g. 2048.
+        /// Gets or sets the key size in bytes. For example;  1024 or 2048.
         /// </summary>
         [JsonProperty(PropertyName = "key_size")]
         public int? KeySize { get; set; }

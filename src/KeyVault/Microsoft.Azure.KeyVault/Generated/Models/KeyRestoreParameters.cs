@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key restore parameters
+    /// The key restore parameters.
     /// </summary>
     public partial class KeyRestoreParameters
     {
@@ -29,15 +29,15 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the KeyRestoreParameters class.
         /// </summary>
-        /// <param name="keyBundleBackup">the backup blob associated with a
-        /// key bundle</param>
+        /// <param name="keyBundleBackup">The backup blob associated with a
+        /// key bundle.</param>
         public KeyRestoreParameters(byte[] keyBundleBackup)
         {
             KeyBundleBackup = keyBundleBackup;
         }
 
         /// <summary>
-        /// Gets or sets the backup blob associated with a key bundle
+        /// Gets or sets the backup blob associated with a key bundle.
         /// </summary>
         [JsonConverter(typeof(Base64UrlJsonConverter))]
         [JsonProperty(PropertyName = "value")]

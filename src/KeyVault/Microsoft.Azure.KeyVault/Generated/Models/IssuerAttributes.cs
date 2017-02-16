@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The attributes of an issuer managed by the KeyVault service
+    /// The attributes of an issuer managed by the Key Vault service.
     /// </summary>
     public partial class IssuerAttributes
     {
@@ -30,9 +30,9 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the IssuerAttributes class.
         /// </summary>
         /// <param name="enabled">Determines whether the issuer is
-        /// enabled</param>
-        /// <param name="created">Creation time in UTC</param>
-        /// <param name="updated">Last updated time in UTC</param>
+        /// enabled.</param>
+        /// <param name="created">Creation time in UTC.</param>
+        /// <param name="updated">Last updated time in UTC.</param>
         public IssuerAttributes(bool? enabled = default(bool?), DateTime? created = default(DateTime?), DateTime? updated = default(DateTime?))
         {
             Enabled = enabled;
@@ -41,20 +41,20 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets determines whether the issuer is enabled
+        /// Gets or sets determines whether the issuer is enabled.
         /// </summary>
         [JsonProperty(PropertyName = "enabled")]
         public bool? Enabled { get; set; }
 
         /// <summary>
-        /// Gets creation time in UTC
+        /// Gets creation time in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "created")]
         public DateTime? Created { get; private set; }
 
         /// <summary>
-        /// Gets last updated time in UTC
+        /// Gets last updated time in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "updated")]

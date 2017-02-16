@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// A certificate operation is returned in case of async requests.
+    /// A certificate operation is returned in case of asynchronous requests.
     /// </summary>
     public partial class CertificateOperation
     {
@@ -29,10 +29,10 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the CertificateOperation class.
         /// </summary>
-        /// <param name="id">The certificate id</param>
+        /// <param name="id">The certificate id.</param>
         /// <param name="issuerParameters">Parameters for the issuer of the
         /// X509 component of a certificate.</param>
-        /// <param name="csr">The Certificate Signing Request (CSR) that is
+        /// <param name="csr">The certificate signing request (CSR) that is
         /// being used in the certificate operation.</param>
         /// <param name="cancellationRequested">Indicates if cancellation was
         /// requested on the certificate operation.</param>
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets the certificate id
+        /// Gets the certificate id.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; private set; }
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.KeyVault.Models
         public IssuerParameters IssuerParameters { get; set; }
 
         /// <summary>
-        /// Gets or sets the Certificate Signing Request (CSR) that is being
+        /// Gets or sets the certificate signing request (CSR) that is being
         /// used in the certificate operation.
         /// </summary>
         [JsonProperty(PropertyName = "csr")]

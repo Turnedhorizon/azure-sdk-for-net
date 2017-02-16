@@ -30,7 +30,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the X509CertificateProperties class.
         /// </summary>
         /// <param name="subject">The subject name. Should be a valid X509
-        /// Distinguished Name.</param>
+        /// distinguished Name.</param>
         /// <param name="ekus">The enhanced key usage.</param>
         /// <param name="subjectAlternativeNames">The subject alternative
         /// names.</param>
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.KeyVault.Models
 
         /// <summary>
         /// Gets or sets the subject name. Should be a valid X509
-        /// Distinguished Name.
+        /// distinguished Name.
         /// </summary>
         [JsonProperty(PropertyName = "subject")]
         public string Subject { get; set; }

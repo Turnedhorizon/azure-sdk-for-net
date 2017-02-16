@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The object attributes managed by the KeyVault service
+    /// The object attributes managed by the KeyVault service.
     /// </summary>
     public partial class Attributes
     {
@@ -30,11 +30,11 @@ namespace Microsoft.Azure.KeyVault.Models
         /// Initializes a new instance of the Attributes class.
         /// </summary>
         /// <param name="enabled">Determines whether the object is
-        /// enabled</param>
-        /// <param name="notBefore">Not before date in UTC</param>
-        /// <param name="expires">Expiry date in UTC</param>
-        /// <param name="created">Creation time in UTC</param>
-        /// <param name="updated">Last updated time in UTC</param>
+        /// enabled.</param>
+        /// <param name="notBefore">Not before date in UTC.</param>
+        /// <param name="expires">Expiry date in UTC.</param>
+        /// <param name="created">Creation time in UTC.</param>
+        /// <param name="updated">Last updated time in UTC.</param>
         public Attributes(bool? enabled = default(bool?), DateTime? notBefore = default(DateTime?), DateTime? expires = default(DateTime?), DateTime? created = default(DateTime?), DateTime? updated = default(DateTime?))
         {
             Enabled = enabled;
@@ -45,34 +45,34 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets determines whether the object is enabled
+        /// Gets or sets determines whether the object is enabled.
         /// </summary>
         [JsonProperty(PropertyName = "enabled")]
         public bool? Enabled { get; set; }
 
         /// <summary>
-        /// Gets or sets not before date in UTC
+        /// Gets or sets not before date in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "nbf")]
         public DateTime? NotBefore { get; set; }
 
         /// <summary>
-        /// Gets or sets expiry date in UTC
+        /// Gets or sets expiry date in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "exp")]
         public DateTime? Expires { get; set; }
 
         /// <summary>
-        /// Gets creation time in UTC
+        /// Gets creation time in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "created")]
         public DateTime? Created { get; private set; }
 
         /// <summary>
-        /// Gets last updated time in UTC
+        /// Gets last updated time in UTC.
         /// </summary>
         [JsonConverter(typeof(UnixTimeJsonConverter))]
         [JsonProperty(PropertyName = "updated")]

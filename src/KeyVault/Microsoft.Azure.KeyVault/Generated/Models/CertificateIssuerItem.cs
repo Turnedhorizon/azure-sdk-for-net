@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The certificate issuer item containing certificate issuer metadata
+    /// The certificate issuer item containing certificate issuer metadata.
     /// </summary>
     public partial class CertificateIssuerItem
     {
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the CertificateIssuerItem class.
         /// </summary>
-        /// <param name="id">Certificate Identifier</param>
+        /// <param name="id">Certificate Identifier.</param>
         /// <param name="provider">The issuer provider.</param>
         public CertificateIssuerItem(string id = default(string), string provider = default(string))
         {
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets certificate Identifier
+        /// Gets or sets certificate Identifier.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

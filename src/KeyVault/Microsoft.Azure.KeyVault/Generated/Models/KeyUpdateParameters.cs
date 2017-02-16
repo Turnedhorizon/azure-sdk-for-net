@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key update parameters
+    /// The key update parameters.
     /// </summary>
     public partial class KeyUpdateParameters
     {
@@ -31,8 +31,8 @@ namespace Microsoft.Azure.KeyVault.Models
         /// </summary>
         /// <param name="keyOps">Json web key operations. For more information
         /// on possible key operations, see JsonWebKeyOperation.</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         public KeyUpdateParameters(IList<string> keyOps = default(IList<string>), KeyAttributes keyAttributes = default(KeyAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
             KeyOps = keyOps;
@@ -53,8 +53,8 @@ namespace Microsoft.Azure.KeyVault.Models
         public KeyAttributes KeyAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }

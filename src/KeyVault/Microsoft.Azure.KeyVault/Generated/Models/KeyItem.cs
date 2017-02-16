@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key item containing key metadata
+    /// The key item containing key metadata.
     /// </summary>
     public partial class KeyItem
     {
@@ -29,13 +29,13 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the KeyItem class.
         /// </summary>
-        /// <param name="kid">Key Identifier</param>
-        /// <param name="attributes">The key management attributes</param>
-        /// <param name="tags">Application-specific metadata in the form of
-        /// key-value pairs</param>
+        /// <param name="kid">Key identifier.</param>
+        /// <param name="attributes">The key management attributes.</param>
+        /// <param name="tags">Application specific metadata in the form of
+        /// key-value pairs.</param>
         /// <param name="managed">True if the key's lifetime is managed by key
-        /// vault i.e. if this is a key backing a certificate, then managed
-        /// will be true.</param>
+        /// vault. If this is a key backing a certificate, then managed will
+        /// be true.</param>
         public KeyItem(string kid = default(string), KeyAttributes attributes = default(KeyAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>), bool? managed = default(bool?))
         {
             Kid = kid;
@@ -45,27 +45,27 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets or sets key Identifier
+        /// Gets or sets key identifier.
         /// </summary>
         [JsonProperty(PropertyName = "kid")]
         public string Kid { get; set; }
 
         /// <summary>
-        /// Gets or sets the key management attributes
+        /// Gets or sets the key management attributes.
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
         public KeyAttributes Attributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
-        /// key-value pairs
+        /// Gets or sets application specific metadata in the form of
+        /// key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         public IDictionary<string, string> Tags { get; set; }
 
         /// <summary>
-        /// Gets true if the key's lifetime is managed by key vault i.e. if
-        /// this is a key backing a certificate, then managed will be true.
+        /// Gets true if the key's lifetime is managed by key vault. If this
+        /// is a key backing a certificate, then managed will be true.
         /// </summary>
         [JsonProperty(PropertyName = "managed")]
         public bool? Managed { get; private set; }

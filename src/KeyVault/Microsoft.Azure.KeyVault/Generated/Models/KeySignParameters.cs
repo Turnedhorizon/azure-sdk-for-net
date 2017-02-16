@@ -17,7 +17,7 @@ namespace Microsoft.Azure.KeyVault.Models
     using Microsoft.Rest.Azure;
 
     /// <summary>
-    /// The key operations parameters
+    /// The key operations parameters.
     /// </summary>
     public partial class KeySignParameters
     {

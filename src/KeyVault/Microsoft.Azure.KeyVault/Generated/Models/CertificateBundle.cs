@@ -30,15 +30,15 @@ namespace Microsoft.Azure.KeyVault.Models
         /// <summary>
         /// Initializes a new instance of the CertificateBundle class.
         /// </summary>
-        /// <param name="id">The certificate id</param>
-        /// <param name="kid">The key id</param>
-        /// <param name="sid">The secret id</param>
+        /// <param name="id">The certificate id.</param>
+        /// <param name="kid">The key id.</param>
+        /// <param name="sid">The secret id.</param>
         /// <param name="x509Thumbprint">Thumbprint of the certificate.</param>
         /// <param name="policy">The management policy.</param>
         /// <param name="cer">CER contents of x509 certificate.</param>
-        /// <param name="contentType">The content type of the secret</param>
+        /// <param name="contentType">The content type of the secret.</param>
         /// <param name="attributes">The certificate attributes.</param>
-        /// <param name="tags">Application-specific metadata in the form of
+        /// <param name="tags">Application specific metadata in the form of
         /// key-value pairs</param>
         public CertificateBundle(string id = default(string), string kid = default(string), string sid = default(string), byte[] x509Thumbprint = default(byte[]), CertificatePolicy policy = default(CertificatePolicy), byte[] cer = default(byte[]), string contentType = default(string), CertificateAttributes attributes = default(CertificateAttributes), IDictionary<string, string> tags = default(IDictionary<string, string>))
         {
@@ -54,19 +54,19 @@ namespace Microsoft.Azure.KeyVault.Models
         }
 
         /// <summary>
-        /// Gets the certificate id
+        /// Gets the certificate id.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; private set; }
 
         /// <summary>
-        /// Gets the key id
+        /// Gets the key id.
         /// </summary>
         [JsonProperty(PropertyName = "kid")]
         public string Kid { get; private set; }
 
         /// <summary>
-        /// Gets the secret id
+        /// Gets the secret id.
         /// </summary>
         [JsonProperty(PropertyName = "sid")]
         public string Sid { get; private set; }
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.KeyVault.Models
         public byte[] Cer { get; set; }
 
         /// <summary>
-        /// Gets or sets the content type of the secret
+        /// Gets or sets the content type of the secret.
         /// </summary>
         [JsonProperty(PropertyName = "contentType")]
         public string ContentType { get; set; }
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.KeyVault.Models
         public CertificateAttributes Attributes { get; set; }
 
         /// <summary>
-        /// Gets or sets application-specific metadata in the form of
+        /// Gets or sets application specific metadata in the form of
         /// key-value pairs
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
